@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/sparkAction.iml" filepath="$PROJECT_DIR$/sparkAction.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sparkScalaAction.iml" filepath="$PROJECT_DIR$/sparkScalaAction.iml" />
     </modules>
   </component>
 </project>

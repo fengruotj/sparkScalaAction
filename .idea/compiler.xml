@@ -7,11 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sparkAction" />
+        <module name="sparkScalaAction" />
         <module name="sparkStudy" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="sparkAction" target="1.5" />
+      <module name="sparkScalaAction" target="1.5" />
       <module name="sparkStudy" target="1.5" />
     </bytecodeTargetLevel>
   </component>
