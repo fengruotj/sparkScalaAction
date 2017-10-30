@@ -1,22 +1,21 @@
-package com.basic.spark.sql
+package com.basic.spark.custom
 
-import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{Row, SQLContext}
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
+import org.apache.spark.sql.{Row, SQLContext}
+import org.apache.spark.{SparkConf, SparkContext}
 
 /**
   * locate com.basic.spark.sql
   * Created by 79875 on 2017/6/29.
-  * 聚集函数
-  * 用户自定义 Spark SQL函数  多个个进来 一个出去
+  * 用户自定义 Spark SQL函数  一个进来 一个出去
   */
-object UDAF {
+object UDF {
     def main(args: Array[String]): Unit = {
         val conf=new SparkConf().setAppName("RDDTODataFrameReflection").setMaster("local")
         val sc=new SparkContext(conf)
         val sqlContext=new SQLContext(sc)
 
-        val name=Array("Tanjie","lizhitao","xuedaxuan","zhangfan","Tanjie")
+        val name=Array("Tanjie","lizhitao","xuedaxuan","zhangfan")
         val nameRDD=sc.parallelize(name,4)
         val nameRowRDD=nameRDD.map(name => Row(name))
         val sturctType=StructType(Array(StructField("name",StringType,true)))
@@ -24,8 +23,8 @@ object UDAF {
 
         nameDF.registerTempTable("names")
 
-        sqlContext.udf.register("strGroupCount",new StringGroupCount)
-        sqlContext.sql("select name,strGroupCount(name) from names group by name")
+        sqlContext.udf.register("strLength",(str:String)=>str.length)
+        sqlContext.sql("select name,strLength(name) from names")
                 .collect().foreach(row=> println(row))
     }
 }

@@ -42,7 +42,7 @@ object Implicit01{
     }
 
     def main(args: Array[String]): Unit = {
-        val older=new Older("tanzhenghua");
+        val older=new Older("tanzhenghua")
         buySpecialTicket(older)
     }
 }
