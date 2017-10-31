@@ -21,7 +21,6 @@ object UpdateStateByWordCount{
         //对于状态Stateful进行checkpoints
         scc.checkpoint("hdfs://root2:9000/user/79875/sparkcheckpoint")
 
-        val lines=scc.socketTextStream("root2",8888)
         val linesRDD=scc.socketTextStream("root2",8888)
         val wordRDD=linesRDD.flatMap(_.split(" "))
 
@@ -34,15 +33,9 @@ object UpdateStateByWordCount{
             //实际上，对于每个单词，每次batch计算的时候，都会调用这个函数买第一个参数values相当于这个batch中
             //这个key对应新的一组值，可能有多个，可能有两个1(tanjie,1)(tanjie,1),纳米这个values就是（1，1)
             //纳米第二个参数表示的是这个key之前的状态，我们看类型Integer你也就知道了，这里是泛型咱们自己指定的
-            var currentSum = 0
-            if(preVauleState.isDefined){
-                currentSum=preVauleState.get
-            }
-            for(temp<-currValues){
-                currentSum+=temp
-            }
-            println(currentSum)
-            Option.apply(currentSum)
+            val currentSum = currValues.sum
+            val previousSum = preVauleState.getOrElse(0)
+            Some(currentSum + previousSum)
         }
 
         val wrodCountRDD=mapPairRDD.updateStateByKey(updateState)
